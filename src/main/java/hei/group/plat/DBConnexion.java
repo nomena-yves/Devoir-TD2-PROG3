@@ -26,7 +26,6 @@ public class DBConnexion {
             }
         } catch (SQLException e) {
             System.out.println("Erreur de connexion : " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }
