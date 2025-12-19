@@ -47,7 +47,16 @@ public class Dish {
         this.ingredients = ingredients;
     }
 
-    public Double getDishPrice(Double count ){
-
+    public Double getDishPrice(){
+        Double price = 0.0;
+        if (ingredients == null) {
+            price =null;
+        }else {
+      for (Ingredient ingredient : ingredients) {
+          price += ingredient.getPrice();
+      }
+      return price;
+        }
+        return price;
     }
 }

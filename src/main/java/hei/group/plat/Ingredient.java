@@ -44,4 +44,10 @@ public class Ingredient {
     public void setCategory(CategoryEnum category) {
         this.category = category;
     }
+
+    public String getDishName() {
+      return  null;
+    };
+
+
 }
