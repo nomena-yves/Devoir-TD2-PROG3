@@ -55,7 +55,6 @@ public class Dish {
       for (Ingredient ingredient : ingredients) {
           price += ingredient.getPrice();
       }
-      return price;
         }
         return price;
     }
