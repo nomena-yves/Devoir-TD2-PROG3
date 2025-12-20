@@ -1,16 +1,20 @@
 package hei.group.plat;
 
+import org.w3c.dom.events.EventException;
+
 public class Ingredient {
     private int id;
     private String name;
     private Double price;
     private CategoryEnum category;
+    private Dish dish;
 
-    public Ingredient(int id, String name, Double price, CategoryEnum category) {
+    public Ingredient(int id, String name, Double price, CategoryEnum category,Dish dish) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
+        this.dish = dish;
     }
 
     public int getId() {
@@ -45,8 +49,20 @@ public class Ingredient {
         this.category = category;
     }
 
+    public Dish getDish() {
+        return dish;
+    }
+
+    public void setDish(Dish dish) {
+        this.dish = dish;
+    }
+
     public String getDishName() {
-      return  null;
+     if(dish == null) {
+         return null;
+     }else {
+         return dish.getName();
+     }
     };
 
 
