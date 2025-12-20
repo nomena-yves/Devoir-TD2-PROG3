@@ -52,9 +52,8 @@ public class Dish {
         if (ingredients == null) {
             price =null;
         }else {
-      for (Ingredient ingredient : ingredients) {
-          price += ingredient.getPrice();
-      }
+     ingredients.stream().mapToDouble(Ingredient::getPrice)
+             .sum();
         }
         return price;
     }
