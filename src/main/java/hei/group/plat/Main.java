@@ -12,6 +12,9 @@ public class Main {
             } else {
                 System.out.println("Échec de la connexion !");
             }
+            if(conn!=null && !conn.isClosed()) {
+                conn.close();
+            }
         } catch (SQLException e) {
             System.out.println("Erreur de connexion : " + e.getMessage());
 
