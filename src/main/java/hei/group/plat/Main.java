@@ -6,18 +6,12 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
         DBConnexion db = new DBConnexion();
+        DataRedriever dr = new DataRedriever();
         try (Connection conn = db.getConnection()) {
-            if (conn != null) {
-                System.out.println("Connexion réussie à la base de données !");
-            } else {
-                System.out.println("Échec de la connexion !");
-            }
-            if(conn!=null && !conn.isClosed()) {
-                conn.close();
-            }
+            System.out.println("Connexion réussie !");
+            System.out.println(dr.findDishById(1));
         } catch (SQLException e) {
-            System.out.println("Erreur de connexion : " + e.getMessage());
-
+            System.out.println(e.getMessage());
         }
     }
 }

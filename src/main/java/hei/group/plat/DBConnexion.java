@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 
 public class DBConnexion {
-    final  String URL = "jdbc:postgresql://localhost:5432/database mini_dish_db";
+    final  String URL = "jdbc:postgresql://localhost:5432/mini_dish_db";
     final  String USER = "mini_dish_manager";
     final  String PASSWORD = "harena";
 

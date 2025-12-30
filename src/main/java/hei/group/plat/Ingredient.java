@@ -3,13 +3,13 @@ package hei.group.plat;
 import org.w3c.dom.events.EventException;
 
 public class Ingredient {
-    private int id;
+    private Integer id;
     private String name;
     private Double price;
     private CategoryEnum category;
     private Dish dish;
 
-    public Ingredient(int id, String name, Double price, CategoryEnum category,Dish dish) {
+    public Ingredient(Integer id, String name, Double price, CategoryEnum category,Dish dish) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -65,5 +65,14 @@ public class Ingredient {
      }
     };
 
-
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", category=" + category +
+                ", dish=" + dish +
+                '}';
+    }
 }

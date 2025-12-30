@@ -47,6 +47,16 @@ public class Dish {
         this.ingredients = ingredients;
     }
 
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dishType=" + dishType +
+                ", ingredients=" + ingredients +
+                '}';
+    }
+
     public Double getDishPrice(){
         Double price = 0.0;
         if (ingredients == null) {
