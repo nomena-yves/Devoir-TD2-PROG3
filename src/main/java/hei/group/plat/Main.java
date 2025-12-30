@@ -9,7 +9,8 @@ public class Main {
         DataRedriever dr = new DataRedriever();
         try (Connection conn = db.getConnection()) {
             System.out.println("Connexion réussie !");
-            System.out.println(dr.findDishById(1));
+            //System.out.println(dr.findDishById(1));
+            System.out.println(dr.findByIngredient(2,3));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
