@@ -70,4 +70,23 @@ public class DataRedriever {
             return Listingredients;
         }
     }
+
+    List<Ingredient> CreateIngredient(List<Ingredient> ingredients) throws SQLException {
+        String sql = "insert into ingredient(id,name,price,category,id_dish) values(?,?,?,?,?)";
+        try (Connection conn = dbConnexion.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            for (Ingredient ingredient : ingredients) {
+                stmt.setInt(1, ingredient.getId());
+                stmt.setString(2, ingredient.getName());
+                stmt.setDouble(3, ingredient.getPrice());
+                stmt.setObject(4, ingredient.getCategory().toString());
+                stmt.setInt(5, ingredient.getDish().getId());
+                stmt.executeUpdate();
+            }
+            System.out.println("Ingredients inserted");
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return ingredients;
+    }
 }
