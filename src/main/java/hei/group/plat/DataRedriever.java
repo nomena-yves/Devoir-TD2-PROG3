@@ -79,7 +79,7 @@ public class DataRedriever {
                 stmt.setInt(1, ingredient.getId());
                 stmt.setString(2, ingredient.getName());
                 stmt.setDouble(3, ingredient.getPrice());
-                stmt.setObject(4, ingredient.getCategory().toString());
+                stmt.setObject(4, ingredient.getCategory().toString(),java.sql.Types.OTHER);
                 stmt.setInt(5, ingredient.getDish().getId());
                 stmt.executeUpdate();
             }
