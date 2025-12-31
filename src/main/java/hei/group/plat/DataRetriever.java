@@ -72,10 +72,11 @@ public class DataRetriever {
             return Listingredients;
         }
     }
-    @Transactional
+
     List<Ingredient> CreateIngredient(List<Ingredient> ingredients) throws SQLException {
         String sql = "insert into ingredient(id,name,price,category,id_dish) values(?,?,?,?,?)";
-        try (Connection conn = dbConnexion.getConnection()) {
+        Connection conn = dbConnexion.getConnection();
+        try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             for (Ingredient ingredient : ingredients) {
                 stmt.setInt(1, ingredient.getId());
@@ -85,9 +86,14 @@ public class DataRetriever {
                 stmt.setInt(5, ingredient.getDish().getId());
                 stmt.executeUpdate();
             }
+            conn.commit();
             System.out.println("Ingredients inserted");
         }catch (SQLException e) {
+            conn.rollback();
             System.out.println(e.getMessage());
+        }finally {
+            conn.setAutoCommit(true);
+            conn.close();
         }
         return ingredients;
     }
