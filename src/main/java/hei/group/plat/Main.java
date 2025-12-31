@@ -11,7 +11,7 @@ import static hei.group.plat.DishTypeEnum.MAIN;
 public class Main {
     public static void main(String[] args) {
         DBConnexion db = new DBConnexion();
-        DataRedriever dr = new DataRedriever();
+        DataRetriever dr = new DataRetriever();
         List<Ingredient> ingredients = new ArrayList<>();
         Dish steakBoeuf=new Dish(7,"steak_boeuf",MAIN,ingredients);
         Ingredient viande_Hacher= new Ingredient(6,"viande_hache",200.00,ANIMAL,steakBoeuf);

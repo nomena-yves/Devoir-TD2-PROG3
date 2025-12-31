@@ -1,5 +1,7 @@
 package hei.group.plat;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataRedriever {
+public class DataRetriever {
     DBConnexion dbConnexion = new DBConnexion();
     Connection con;
 
@@ -70,7 +72,7 @@ public class DataRedriever {
             return Listingredients;
         }
     }
-
+    @Transactional
     List<Ingredient> CreateIngredient(List<Ingredient> ingredients) throws SQLException {
         String sql = "insert into ingredient(id,name,price,category,id_dish) values(?,?,?,?,?)";
         try (Connection conn = dbConnexion.getConnection()) {
