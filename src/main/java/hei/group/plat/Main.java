@@ -20,7 +20,8 @@ public class Main {
             System.out.println("Connexion réussie !");
             //System.out.println(dr.findDishById(1));
             //System.out.println(dr.findByIngredient(2,3));
-          dr.CreateIngredient(ingredients);
+          //dr.CreateIngredient(ingredients);
+            dr.saveDish(steakBoeuf);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

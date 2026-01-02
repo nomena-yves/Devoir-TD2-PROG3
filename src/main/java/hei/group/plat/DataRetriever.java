@@ -118,5 +118,37 @@ public class DataRetriever {
         return ingredients;
     }
 
+public Dish saveDish(Dish dish) throws SQLException {
+    Connection conn = dbConnexion.getConnection();
+    conn.setAutoCommit(false);
 
+    try {
+        String sqlSelect = "Select id from dish where name = ?";
+        PreparedStatement statementSelect = conn.prepareStatement(sqlSelect);
+        statementSelect.setString(1, dish.getName());
+        ResultSet rs = statementSelect.executeQuery();
+        if (rs.next()) {
+            dish.setId(rs.getInt("id"));
+            String sqlUpdate = "Update dish set name=?,dish_type=? where id=?";
+            PreparedStatement statement3 = conn.prepareStatement(sqlUpdate);
+            statement3.setString(1, dish.getName());
+            statement3.setObject(2, dish.getDishType().toString(), java.sql.Types.OTHER);
+            statement3.executeUpdate();
+            System.out.println("Dish updated");
+        } else {
+            String sqlInsert = "Insert into dish(id,name,dish_type) values(?,?,?)";
+            PreparedStatement statement4 = conn.prepareStatement(sqlInsert);
+            statement4.setInt(1, dish.getId());
+            statement4.setString(2, dish.getName());
+            statement4.setObject(3, dish.getDishType().toString(), java.sql.Types.OTHER);
+            statement4.executeUpdate();
+            System.out.println("Dish inserted");
+        }
+        conn.commit();
+    }catch (SQLException e) {
+        conn.rollback();
+        System.out.println(e.getMessage());
+    }
+    return dish;
+}
 }
