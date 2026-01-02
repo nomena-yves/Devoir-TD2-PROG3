@@ -76,18 +76,38 @@ public class DataRetriever {
     List<Ingredient> CreateIngredient(List<Ingredient> ingredients) throws SQLException {
         String sql = "insert into ingredient(id,name,price,category,id_dish) values(?,?,?,?,?)";
         Connection conn = dbConnexion.getConnection();
+        conn.setAutoCommit(false);
         try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
             for (Ingredient ingredient : ingredients) {
-                stmt.setInt(1, ingredient.getId());
-                stmt.setString(2, ingredient.getName());
-                stmt.setDouble(3, ingredient.getPrice());
-                stmt.setObject(4, ingredient.getCategory().toString(),java.sql.Types.OTHER);
-                stmt.setInt(5, ingredient.getDish().getId());
-                stmt.executeUpdate();
+                String sqlSelect= "Select id from ingredient where name = ?";
+                PreparedStatement stmt1 = conn.prepareStatement(sqlSelect);
+                stmt1.setString(1, ingredient.getName());
+                ResultSet rs = stmt1.executeQuery();
+
+                if (rs.next()) {
+                 int resutl= rs.getInt("id");
+                 String Update="Update ingredient Set name=?,price=?,category=?,id_dish=? where id=?";
+                 PreparedStatement statement2 = conn.prepareStatement(Update);
+                 statement2.setString(1, ingredient.getName());
+                 statement2.setDouble(2, ingredient.getPrice());
+                 statement2.setString(3, ingredient.getCategory().toString());
+                 statement2.setInt(4,ingredient.getDish().getId());
+                  statement2.executeQuery();
+
+                } else {
+                    PreparedStatement stmt = conn.prepareStatement(sql);
+
+                    stmt.setInt(1, ingredient.getId());
+                    stmt.setString(2, ingredient.getName());
+                    stmt.setDouble(3, ingredient.getPrice());
+                    stmt.setObject(4, ingredient.getCategory().toString(), java.sql.Types.OTHER);
+                    stmt.setInt(5, ingredient.getDish().getId());
+                    stmt.executeUpdate();
+
+                    conn.commit();
+                    System.out.println("Ingredients inserted");
+                }
             }
-            conn.commit();
-            System.out.println("Ingredients inserted");
         }catch (SQLException e) {
             conn.rollback();
             System.out.println(e.getMessage());
@@ -97,4 +117,6 @@ public class DataRetriever {
         }
         return ingredients;
     }
+
+
 }
