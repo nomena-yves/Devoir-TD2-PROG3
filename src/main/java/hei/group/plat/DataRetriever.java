@@ -129,10 +129,11 @@ public Dish saveDish(Dish dish) throws SQLException {
         ResultSet rs = statementSelect.executeQuery();
         if (rs.next()) {
             dish.setId(rs.getInt("id"));
-            String sqlUpdate = "Update dish set name=?,dish_type=? where id=?";
+            String sqlUpdate = "Update dish set name=?,dish_type=? WHERE id = ?";
             PreparedStatement statement3 = conn.prepareStatement(sqlUpdate);
             statement3.setString(1, dish.getName());
             statement3.setObject(2, dish.getDishType().toString(), java.sql.Types.OTHER);
+            statement3.setInt(3, dish.getId());
             statement3.executeUpdate();
             System.out.println("Dish updated");
         } else {

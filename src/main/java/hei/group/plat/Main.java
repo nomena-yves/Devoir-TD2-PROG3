@@ -13,7 +13,7 @@ public class Main {
         DBConnexion db = new DBConnexion();
         DataRetriever dr = new DataRetriever();
         List<Ingredient> ingredients = new ArrayList<>();
-        Dish steakBoeuf=new Dish(7,"steak_boeuf",MAIN,ingredients);
+        Dish steakBoeuf=new Dish(8,"steak",MAIN,ingredients);
         Ingredient viande_Hacher= new Ingredient(6,"viande_hache",200.00,ANIMAL,steakBoeuf);
         ingredients.add(viande_Hacher);
         try (Connection conn = db.getConnection()) {
