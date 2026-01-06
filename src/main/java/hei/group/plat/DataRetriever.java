@@ -137,11 +137,37 @@ public Dish saveDish(Dish dish) throws SQLException {
             statement3.executeUpdate();
             System.out.println("Dish updated");
         } else {
+            int ingredientId= rs.getInt("id");
             String sqlInsert = "Insert into dish(id,name,dish_type) values(?,?,?)";
             PreparedStatement statement4 = conn.prepareStatement(sqlInsert);
             statement4.setInt(1, dish.getId());
             statement4.setString(2, dish.getName());
             statement4.setObject(3, dish.getDishType().toString(), java.sql.Types.OTHER);
+            for (Ingredient ingredient : dish.getIngredients()) {
+               String sqlIngredient="Select name as ingredient_name from ingredient where id_dish = ?";
+               PreparedStatement statement5 = conn.prepareStatement(sqlIngredient);
+               statement5.setInt(1,ingredientId);
+               ResultSet resultSet = statement5.executeQuery();
+               if (resultSet.next()) {
+                   String UpdateIngredient="Update ingredient Set name=?,price=?,category=?,id_dish=? where id=?";
+                   PreparedStatement statement7 = conn.prepareStatement(UpdateIngredient);
+                   statement7.setString(1, ingredient.getName());
+                   statement7.setDouble(2, ingredient.getPrice());
+                   statement7.setObject(3, ingredient.getCategory().toString(), java.sql.Types.OTHER);
+                   statement7.setInt(4, ingredient.getDish().getId());
+                   statement7.executeUpdate();
+
+               }else {
+                   String insertIngredient="insert into ingredient(id,name,price,category,id_dish) values(?,?,?,?,?)";
+                   PreparedStatement statement6 = conn.prepareStatement(insertIngredient);
+                   statement6.setInt(1, ingredient.getId());
+                   statement6.setString(2, ingredient.getName());
+                   statement6.setDouble(3, ingredient.getPrice());
+                   statement6.setObject(4, ingredient.getCategory().toString(),java.sql.Types.OTHER);
+                   statement6.setInt(5, ingredient.getDish().getId());
+                   statement6.executeUpdate();
+               }
+            }
             statement4.executeUpdate();
             System.out.println("Dish inserted");
         }
@@ -151,5 +177,6 @@ public Dish saveDish(Dish dish) throws SQLException {
         System.out.println(e.getMessage());
     }
     return dish;
+
 }
 }
