@@ -179,4 +179,45 @@ public Dish saveDish(Dish dish) throws SQLException {
     return dish;
 
 }
+    List<Dish> findDishByIngredientName(String IngredientName) throws SQLException {
+       Connection conn = dbConnexion.getConnection();
+        String sqlfindIdDish = "Select id_dish from ingredient where name = ?";
+        List<Dish> dishes = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sqlfindIdDish);
+            stmt.setString(1, IngredientName);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int dishId = rs.getInt("id_dish");
+                String sqlFindDish = "Select id,name,dish_type from dish where id = ?";
+                PreparedStatement statementFindDish = conn.prepareStatement(sqlFindDish);
+                statementFindDish.setInt(1, dishId);
+                ResultSet rsFindDish = statementFindDish.executeQuery();
+                rsFindDish.next();
+                Dish dish = new Dish(
+                        rsFindDish.getInt("id"),
+                        rsFindDish.getString("name"),
+                        DishTypeEnum.valueOf(rsFindDish.getString("dish_type")),
+                                new ArrayList<>()
+                );
+                dishes.add(dish);
+            }
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return dishes;
+    }
+
+
+    List<Ingredient> findIngredientByCreataria(String ingredientName, CategoryEnum category,String dishName,int page,int size) throws SQLException {
+        int offset = (page - 1) * size;
+        Connection conn = dbConnexion.getConnection();
+        String sql="select id from dish where name=? and";
+        List<Ingredient> ingredients = new ArrayList<>();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setString(1, ingredientName);
+        ResultSet rs = preparedStatement.executeQuery();
+        rs.next();
+    }
 }
