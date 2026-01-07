@@ -15,7 +15,7 @@ public class DataRetriever {
 
     Dish findDishById(Integer id) throws SQLException {
 
-        String sql = " Select d.id,d.name,d.dish_type,i.name,d.pricc as Name_ingredient from dish d left join ingredient i on d.id = i.id_dish where d.id = ?";
+        String sql = " Select d.id,d.name,d.dish_type,i.name as Name_ingredient,d.price from dish d left join ingredient i on d.id = i.id_dish where d.id = ?";
         Dish dish = null;
         try (Connection conn = dbConnexion.getConnection()) {
 
@@ -30,7 +30,7 @@ public class DataRetriever {
                             rs.getString("name"),
                             DishTypeEnum.valueOf(rs.getString("dish_type")),
                             new ArrayList<>(),
-                            rs.getDouble("pricc")
+                            rs.getDouble("price")
                     );
                 }
 
@@ -214,14 +214,5 @@ public Dish saveDish(Dish dish) throws SQLException {
     }
 
 
-    List<Ingredient> findIngredientByCreataria(String ingredientName, CategoryEnum category,String dishName,int page,int size) throws SQLException {
-        int offset = (page - 1) * size;
-        Connection conn = dbConnexion.getConnection();
-        String sql="select id from dish where name=? and";
-        List<Ingredient> ingredients = new ArrayList<>();
-        PreparedStatement preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setString(1, ingredientName);
-        ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
-    }
+
 }

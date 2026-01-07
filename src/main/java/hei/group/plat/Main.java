@@ -13,16 +13,17 @@ public class Main {
         DBConnexion db = new DBConnexion();
         DataRetriever dr = new DataRetriever();
         List<Ingredient> ingredients = new ArrayList<>();
-        Dish steakBoeuf=new Dish(8,"steak",MAIN,ingredients);
+        Dish steakBoeuf=new Dish(8,"steak",MAIN,ingredients,2000.00);
         Ingredient viande_Hacher= new Ingredient(6,"viande_hache",200.00,ANIMAL,steakBoeuf);
         ingredients.add(viande_Hacher);
         try (Connection conn = db.getConnection()) {
             System.out.println("Connexion réussie !");
-            //System.out.println(dr.findDishById(1));
-            //System.out.println(dr.findByIngredient(2,3));
-          //dr.CreateIngredient(ingredients);
-            //dr.saveDish(steakBoeuf);
+            System.out.println(dr.findDishById(1));
+            System.out.println(dr.findByIngredient(2,3));
+          dr.CreateIngredient(ingredients);
+            dr.saveDish(steakBoeuf);
             System.out.println(dr.findDishByIngredientName("Beurre"));
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

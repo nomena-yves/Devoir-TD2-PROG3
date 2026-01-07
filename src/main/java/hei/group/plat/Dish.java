@@ -99,9 +99,11 @@ public class Dish {
          for (Ingredient ingredient : ingredients) {
              priceTotalIngredient=+ingredient.getPrice();
          }
-       return margin=getPrice() -priceTotalIngredient;
+        margin=getPrice() -priceTotalIngredient;
      }catch(Exception e) {
          System.out.println(e.getMessage());
+         System.out.println(" votre prix n existe pas");
      }
+     return margin;
     }
 }
