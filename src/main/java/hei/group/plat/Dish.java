@@ -8,12 +8,14 @@ public class Dish {
     private String name;
     private DishTypeEnum dishType;
     private List<Ingredient> ingredients;
+    private Double price;
 
-    public Dish(int id, String name, DishTypeEnum dishType, List<Ingredient> ingredients) {
+    public Dish(int id, String name, DishTypeEnum dishType, List<Ingredient> ingredients, Double price) {
         this.id = id;
         this.name = name;
         this.dishType = dishType;
         this.ingredients = ingredients;
+        this.price = price;
     }
 
     public int getId() {
@@ -48,6 +50,14 @@ public class Dish {
         this.ingredients = ingredients;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Dish{" +
@@ -55,6 +65,7 @@ public class Dish {
                 ", name='" + name + '\'' +
                 ", dishType=" + dishType +
                 ", ingredients=" + ingredients +
+                ", price=" + price +
                 '}';
     }
 
@@ -62,22 +73,35 @@ public class Dish {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Dish dish = (Dish) o;
-        return id == dish.id && Objects.equals(name, dish.name) && dishType == dish.dishType && Objects.equals(ingredients, dish.ingredients);
+        return id == dish.id && Objects.equals(name, dish.name) && dishType == dish.dishType && Objects.equals(ingredients, dish.ingredients)&& Objects.equals(price, dish.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, dishType, ingredients);
+        return Objects.hash(id, name, dishType, ingredients, price);
     }
 
-    public Double getDishPrice(){
-        Double price = 0.0;
+    public Double getDishCost(){
+        Double priceTotal = 0.0;
         if (ingredients == null) {
-            price =null;
+            priceTotal =null;
         }else {
      ingredients.stream().mapToDouble(Ingredient::getPrice)
              .sum();
         }
         return price;
+    }
+
+    public Double getGrossMargin(){
+        Double priceTotalIngredient = 0.0;
+        Double margin = 0.0;
+     try{
+         for (Ingredient ingredient : ingredients) {
+             priceTotalIngredient=+ingredient.getPrice();
+         }
+       return margin=getPrice() -priceTotalIngredient;
+     }catch(Exception e) {
+         System.out.println(e.getMessage());
+     }
     }
 }

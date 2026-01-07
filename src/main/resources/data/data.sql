@@ -9,3 +9,5 @@ insert into Ingredient(id,name,price,category,id_dish)values (1,'Laitue',800.00,
                                                               (3,'Poulet',4500.00,'ANIMAL',2),
                                                               (4,'Chocolat',3000.00,'OTHER',4),
                                                               (5,'Beurre',2500.00,'DAIRY',4);
+ update dish set price=2000 where id=1;
+update dish set price=6000 where id=2;

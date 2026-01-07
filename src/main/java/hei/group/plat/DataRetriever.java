@@ -15,7 +15,7 @@ public class DataRetriever {
 
     Dish findDishById(Integer id) throws SQLException {
 
-        String sql = " Select d.id,d.name,d.dish_type,i.name as Name_ingredient from dish d left join ingredient i on d.id = i.id_dish where d.id = ?";
+        String sql = " Select d.id,d.name,d.dish_type,i.name,d.pricc as Name_ingredient from dish d left join ingredient i on d.id = i.id_dish where d.id = ?";
         Dish dish = null;
         try (Connection conn = dbConnexion.getConnection()) {
 
@@ -29,7 +29,8 @@ public class DataRetriever {
                             rs.getInt("id"),
                             rs.getString("name"),
                             DishTypeEnum.valueOf(rs.getString("dish_type")),
-                            new ArrayList<>()
+                            new ArrayList<>(),
+                            rs.getDouble("pricc")
                     );
                 }
 
@@ -129,20 +130,22 @@ public Dish saveDish(Dish dish) throws SQLException {
         ResultSet rs = statementSelect.executeQuery();
         if (rs.next()) {
             dish.setId(rs.getInt("id"));
-            String sqlUpdate = "Update dish set name=?,dish_type=? WHERE id = ?";
+            String sqlUpdate = "Update dish set name=?,dish_type=?,price=? WHERE id = ?";
             PreparedStatement statement3 = conn.prepareStatement(sqlUpdate);
             statement3.setString(1, dish.getName());
             statement3.setObject(2, dish.getDishType().toString(), java.sql.Types.OTHER);
             statement3.setInt(3, dish.getId());
+           statement3.setObject(4,dish.getPrice());
             statement3.executeUpdate();
             System.out.println("Dish updated");
         } else {
             int ingredientId= rs.getInt("id");
-            String sqlInsert = "Insert into dish(id,name,dish_type) values(?,?,?)";
+            String sqlInsert = "Insert into dish(id,name,dish_type,price=?) values(?,?,?)";
             PreparedStatement statement4 = conn.prepareStatement(sqlInsert);
             statement4.setInt(1, dish.getId());
             statement4.setString(2, dish.getName());
             statement4.setObject(3, dish.getDishType().toString(), java.sql.Types.OTHER);
+            statement4.setDouble(4, dish.getPrice());
             for (Ingredient ingredient : dish.getIngredients()) {
                String sqlIngredient="Select name as ingredient_name from ingredient where id_dish = ?";
                PreparedStatement statement5 = conn.prepareStatement(sqlIngredient);
@@ -190,7 +193,7 @@ public Dish saveDish(Dish dish) throws SQLException {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int dishId = rs.getInt("id_dish");
-                String sqlFindDish = "Select id,name,dish_type from dish where id = ?";
+                String sqlFindDish = "Select id,name,dish_type,price from dish where id = ?";
                 PreparedStatement statementFindDish = conn.prepareStatement(sqlFindDish);
                 statementFindDish.setInt(1, dishId);
                 ResultSet rsFindDish = statementFindDish.executeQuery();
@@ -199,7 +202,8 @@ public Dish saveDish(Dish dish) throws SQLException {
                         rsFindDish.getInt("id"),
                         rsFindDish.getString("name"),
                         DishTypeEnum.valueOf(rsFindDish.getString("dish_type")),
-                                new ArrayList<>()
+                                new ArrayList<>(),
+                        rsFindDish.getDouble("price")
                 );
                 dishes.add(dish);
             }

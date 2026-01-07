@@ -14,3 +14,4 @@ create table Ingredient(
     id_dish int ,
     constraint fk_dish foreign key (id_dish) references Dish (id)
 );
+Alter table dish add column if not exists price int;
