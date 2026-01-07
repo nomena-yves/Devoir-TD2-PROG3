@@ -212,7 +212,37 @@ public Dish saveDish(Dish dish) throws SQLException {
         }
         return dishes;
     }
+     List<Ingredient> findIngredientByCretaria(String ingredientName,CategoryEnum category,String NameDish,int page,int size) throws SQLException {
+        Connection conn = dbConnexion.getConnection();
+        int offset = (page - 1) * size;
+        String sql=" select i.id,i.name,i.price,i.category,i.id_dish from ingredient i inner join d.dish where i.name=? and i.category=?,i.id_dish=? limit ? offset ?";
+        List<Ingredient> ingredients = new ArrayList<>();
+        String sqlFindIdDish="select d.id as id_dish from dish where name=?";
+        PreparedStatement statementFindIdDish=conn.prepareStatement(sqlFindIdDish);
+        statementFindIdDish.setString(1,"NameDish" );
+        ResultSet rsFindIdDish=statementFindIdDish.executeQuery();
 
+        while (rsFindIdDish.next()) {
+            int dishId = rsFindIdDish.getInt("id");
+            PreparedStatement statementFindIngredient=conn.prepareStatement(sql);
+            statementFindIngredient.setString(1,ingredientName);
+            statementFindIngredient.setObject(2,category.toString(),java.sql.Types.OTHER);
+            statementFindIngredient.setInt(3,dishId);
+            ResultSet rsFindIngredient=statementFindIngredient.executeQuery();
+            while (rsFindIngredient.next()) {
+                Ingredient ingredient = new Ingredient(
+                        rsFindIngredient.getInt("id"),
+                        rsFindIngredient.getString("name"),
+                        rsFindIngredient.getDouble("price"),
+                       CategoryEnum.valueOf(rsFindIngredient.getString("category")),
+                        null
+                );
+                ingredients.add(ingredient);
+            }
+
+        }
+         return ingredients;
+     }
 
 
 }
