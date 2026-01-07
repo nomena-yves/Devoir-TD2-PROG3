@@ -215,7 +215,7 @@ public Dish saveDish(Dish dish) throws SQLException {
      List<Ingredient> findIngredientByCretaria(String ingredientName,CategoryEnum category,String NameDish,int page,int size) throws SQLException {
         Connection conn = dbConnexion.getConnection();
         int offset = (page - 1) * size;
-        String sql=" select i.id,i.name,i.price,i.category,i.id_dish from ingredient i inner join d.dish where i.name=? and i.category=?,i.id_dish=? limit ? offset ?";
+        String sql=" select d.id,d.name,d.price,d.dish_type from dish d inner join ingredient i where i.name=? and i.category=? and d.id=? limit ? offset ?";
         List<Ingredient> ingredients = new ArrayList<>();
         String sqlFindIdDish="select d.id as id_dish from dish where name=?";
         PreparedStatement statementFindIdDish=conn.prepareStatement(sqlFindIdDish);
