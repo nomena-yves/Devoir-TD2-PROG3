@@ -1,6 +1,7 @@
 package hei.group.plat;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Dish {
     private int id;
@@ -55,6 +56,18 @@ public class Dish {
                 ", dishType=" + dishType +
                 ", ingredients=" + ingredients +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Dish dish = (Dish) o;
+        return id == dish.id && Objects.equals(name, dish.name) && dishType == dish.dishType && Objects.equals(ingredients, dish.ingredients);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, dishType, ingredients);
     }
 
     public Double getDishPrice(){
